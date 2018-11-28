@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>slot作用域</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <todo-list>
+            <template slot-scope="slotProps">
+                <p>{{title}}</p>
+                <p>{{slotProps.msg}}</p>
+            </template>
+        </todo-list>
+    </div>
+</body>
+<script>
+    Vue.component('todo-list', {
+        template: `
+            <div>
+                <slot :msg="msg"></slot>
+            </div>    
+        `,
+        data: function() {
+            return {
+                msg: "子组件内容"
+            }
+        }
+    })
+
+    var app = new Vue({
+        el: "#app",
+        data: function () {
+            return {
+                title: "来自父组件的内容"
+            }
+        }
+    })
+</script>
+
+</html>
