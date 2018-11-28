@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>slot作用域</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <todo-list v-bind:todos = "todos">
+            <template slot-scope="slotProps">
+                <span v-if="slotProps.todo.isComplete">√</span>
+                {{slotProps.todo.text}}
+            </template>
+        </todo-list>
+    </div>
+</body>
+<script>
+    Vue.component('todo-list',{
+        template: `
+            <ul>
+                <li v-for="todo in todos" v-bind:key="todo.id">
+                    <slot v-bind:todo="todo">
+                        {{ todo.text }}
+                    </slot>
+                </li>
+            </ul>
+        `,
+        props: {
+            todos: {
+                type: Array
+            }
+        }
+    })
+
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            return {
+                todos: [
+                    {text:'666',isComplete: true},
+                    {text:'555',isComplete: false},
+                    {text:'444',isComplete: false},
+                    {text:'333',isComplete: true}
+                ]
+            }
+        }
+    })
+</script>
+</html>
